@@ -17,30 +17,51 @@
     <section class="row posts">
         <div class="col-6">
             <h3>What other people say...</h3>
-            <article class="post">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                <div class="info">
-                    Posted by Hoang on 23 Aug 2018
-                </div>
-                <div class="interaction">
-                    <a href="#">Like</a> | 
-                    <a href="#">Dislike</a> | 
-                    <a href="#">Edit</a> | 
-                    <a href="#">Delete</a>
-                </div>
-            </article>
-            <article class="post">
-                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                <div class="info">
-                    Posted by Hoang on 23 Aug 2018
-                </div>
-                <div class="interaction">
-                    <a href="#">Like</a> | 
-                    <a href="#">Dislike</a> | 
-                    <a href="#">Edit</a> | 
-                    <a href="#">Delete</a>
-                </div>
-            </article>
+            @foreach ($posts as $post)
+                <article class="post" data-postid="{{ $post->id }}">
+                    <p class="post-body">{{ $post->body }}</p>
+                    <div class="info">
+                        Posted by {{ $post->user->first_name }} on {{ $post->created_at }}
+                    </div>
+                    <div class="interaction">
+                        <a href="#">Like</a> | 
+                        <a href="#">Dislike</a>
+                        @if (Auth::user() == $post->user)
+                            | 
+                            <a href="#" class="edit">Edit</a> | 
+                            <a href="{{ route('post.delete', ['post_id' => $post->id]) }}">Delete</a>
+                        @endif
+                    </div>
+                </article>
+            @endforeach
         </div>
     </section>
+    <div class="modal" tabindex="-1" role="dialog" id="edit_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="post_body">Edit the Post</label>
+                            <textarea name="post_body" id="post_body" rows="5" class="form-control"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modal_save">Save changes</button>
+                </div>
+                </div>
+        </div>
+    </div>
+    <script>
+        var token = '{{ Session::token() }}';
+        var url = "{{ route('edit') }}";
+    </script>
 @endsection

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function getLogin()
+    {
+        return view('welcome');
+    }
     public function getDashboard() {
         return view('dashboard');
     }
@@ -45,5 +49,12 @@ class UserController extends Controller
             return redirect()->route('dashboard');
         }
         return redirect()->back();
+    }
+
+    public function getLogout()
+    {
+        
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
