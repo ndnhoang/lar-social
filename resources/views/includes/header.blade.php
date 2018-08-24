@@ -6,11 +6,12 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav mr-auto">
-          <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
         </ul>
       @if (Auth::check())
         <ul class="nav navbar-nav">
-          <li><a href="{{ route('logout') }}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('account') }}">Account</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('logout') }}">Logout</a></li>
         </ul>    
       @endif
     </div>
